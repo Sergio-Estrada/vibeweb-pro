@@ -1,0 +1,58 @@
+// Navegación suave para anclas
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+
+// Cambiar clase activa en el nav al hacer scroll
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (window.pageYOffset >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === `#${current}`) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Simular interacción con el asistente de IA
+document.querySelector('.ai-input button').addEventListener('click', (e) => {
+  e.preventDefault();
+  const input = document.querySelector('.ai-input input');
+  const chat = document.querySelector('.ai-chat');
+
+  if (input.value.trim() !== '') {
+    const userMessage = document.createElement('div');
+    userMessage.className = 'ai-message user';
+    userMessage.innerHTML = `<p>${input.value}</p>`;
+    chat.insertBefore(userMessage, chat.lastChild);
+
+    // Simular respuesta de IA
+    setTimeout(() => {
+      const aiResponse = document.createElement('div');
+      aiResponse.className = 'ai-message';
+      aiResponse.innerHTML = `<p>Respuesta de IA: "Para tu proyecto, te recomiendo usar un layout Bento Grid con una paleta de colores neón. Aquí tienes un ejemplo de código: <code>background: linear-gradient(135deg, #FF2D75, #00F5FF);</code>"</p>`;
+      chat.insertBefore(aiResponse, chat.lastChild);
+      input.value = '';
+    }, 1000);
+  }
+});
+
+// Añadir nuevo proyecto (simulación)
+document.querySelector('.new-project').addEventListener('click', () => {
+  alert('¡Nuevo proyecto creado! (Funcionalidad en desarrollo)');
+});
